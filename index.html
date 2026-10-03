@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Control de Actividades — Ciclo 02-2026</title>
+<style>
+  :root {
+    --bg: #0f1420;
+    --card: #171e2e;
+    --text: #e8ecf4;
+    --muted: #9aa5b8;
+    --accent: #4f8cff;
+    --past: #55607a;
+    --soon: #ffb84f;
+    --danger: #ff6b6b;
+    --ok: #4ade80;
+    --border: #2a3448;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 1.5rem 1rem 4rem;
+  }
+  .wrap { max-width: 780px; margin: 0 auto; }
+  h1 { font-size: 1.4rem; }
+  .sub { color: var(--muted); font-size: .9rem; margin: .3rem 0 1.2rem; }
+
+  /* Progreso */
+  .progress-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 1rem 1.1rem; margin-bottom: 1.1rem;
+  }
+  .progress-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: .35rem; }
+  .progress-label { font-size: .85rem; color: var(--muted); }
+  .progress-value { font-size: 1rem; font-weight: 700; }
+  .bar { height: 9px; background: #10141f; border-radius: 99px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 99px; transition: width .5s ease; }
+  .bar-fill.mine { background: linear-gradient(90deg, #4f8cff, #7db4ff); }
+  .bar-fill.expected { background: linear-gradient(90deg, #555f78, #8a95ad); }
+  .progress-stats { margin-top: .7rem; font-size: .8rem; color: var(--muted); display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  /* Próximo vencimiento */
+  .next-deadline {
+    display: flex; align-items: center; gap: .7rem;
+    background: rgba(255,184,79,.08); border: 1px solid rgba(255,184,79,.35);
+    border-radius: 12px; padding: .8rem 1rem; margin-bottom: 1.1rem;
+  }
+  .next-deadline .pulse { width: 10px; height: 10px; border-radius: 50%; background: var(--soon); flex-shrink: 0; animation: pulse 1.6s infinite; }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255,184,79,.5);} 70% { box-shadow: 0 0 0 8px rgba(255,184,79,0);} 100% { box-shadow: 0 0 0 0 rgba(255,184,79,0);} }
+  .next-deadline .txt { font-size: .9rem; }
+  .next-deadline strong { color: var(--soon); }
+
+  /* Filtros */
+  .filters { display: flex; flex-wrap: wrap; gap: .45rem; margin-bottom: 1.1rem; }
+  .filters button {
+    background: var(--card); color: var(--muted); border: 1px solid var(--border);
+    padding: .4rem .85rem; border-radius: 999px; font-size: .8rem; cursor: pointer;
+    transition: all .15s;
+  }
+  .filters button:hover { color: var(--text); border-color: var(--accent); }
+  .filters button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .filters .sep { width: 1px; background: var(--border); margin: 0 .25rem; }
+
+  /* Tarjetas */
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: .8rem 1rem; margin-bottom: .55rem;
+    display: flex; align-items: center; gap: .85rem;
+    transition: opacity .2s;
+  }
+  .card.done-card { opacity: .45; }
+  .card.done-card .title { text-decoration: line-through; }
+  .check {
+    width: 22px; height: 22px; flex-shrink: 0; cursor: pointer;
+    accent-color: var(--ok);
+  }
+  .date {
+    min-width: 104px; font-weight: 700; font-size: .88rem;
+    color: var(--accent); white-space: nowrap;
+  }
+  .card.is-past .date { color: var(--past); }
+  .card.is-urgent .date { color: var(--danger); }
+  .card.is-soon .date { color: var(--soon); }
+  .info { flex: 1; min-width: 0; }
+  .title { font-size: .94rem; }
+  .days {
+    font-size: .74rem; font-weight: 700; padding: .18rem .6rem;
+    border-radius: 999px; white-space: nowrap; background: #10141f; color: var(--muted);
+  }
+  .days.urgent { background: rgba(255,107,107,.15); color: var(--danger); }
+  .days.soon { background: rgba(255,184,79,.15); color: var(--soon); }
+  .days.past { background: transparent; color: var(--past); }
+  .tag {
+    font-size: .7rem; font-weight: 700; padding: .2rem .55rem;
+    border-radius: 999px; white-space: nowrap; letter-spacing: .03em;
+  }
+  .tag.cad { background: #1e3a5f; color: #7db4ff; }
+  .tag.avm { background: #2e2150; color: #b79cff; }
+  .tag.psc { background: #21452a; color: #7fd99b; }
+  .tag.tipo { background: #10141f; color: var(--muted); }
+  .pct { color: var(--muted); font-size: .82rem; white-space: nowrap; min-width: 42px; text-align: right; }
+
+  .reset-btn {
+    background: transparent; border: 1px solid var(--border); color: var(--muted);
+    border-radius: 8px; padding: .45rem .9rem; font-size: .8rem; cursor: pointer; margin-top: 1.2rem;
+  }
+  .reset-btn:hover { color: var(--danger); border-color: var(--danger); }
+  .empty { color: var(--muted); text-align: center; padding: 2rem 0; font-size: .9rem; }
+  footer { margin-top: 2rem; color: var(--muted); font-size: .78rem; text-align: center; }
+  @media (max-width: 600px) {
+    .card { flex-wrap: wrap; }
+    .date { min-width: 100%; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Control de Actividades — Ciclo 02-2026</h1>
+  <p class="sub">Tareas, exámenes y foros de CAD941, AVM941 y PSC901. Marque lo que ya hizo y el progreso se guarda en su navegador.</p>
+
+  <div class="progress-card">
+    <div class="progress-row">
+      <span class="progress-label">Mi progreso (según lo marcado)</span>
+      <span class="progress-value" id="pct-mine">0%</span>
+    </div>
+    <div class="bar"><div class="bar-fill mine" id="bar-mine" style="width:0%"></div></div>
+    <div class="progress-row" style="margin-top:.6rem">
+      <span class="progress-label">Progreso esperado (por calendario)</span>
+      <span class="progress-value" id="pct-expected" style="color:var(--muted)">0%</span>
+    </div>
+    <div class="bar"><div class="bar-fill expected" id="bar-expected" style="width:0%"></div></div>
+    <div class="progress-stats" id="progress-stats"></div>
+  </div>
+
+  <div class="next-deadline" id="next-deadline">
+    <span class="pulse"></span>
+    <span class="txt">Próximo vencimiento: <strong id="next-txt">—</strong></span>
+  </div>
+
+  <div class="filters" id="filters">
+    <button data-m="all" class="active">Todas</button>
+    <button data-m="CAD">CAD</button>
+    <button data-m="AVM">AVM</button>
+    <button data-m="PSC">PSC</button>
+    <span class="sep"></span>
+    <button data-s="pending" class="active">Pendientes</button>
+    <button data-s="all">Todas</button>
+    <button data-s="done">Hechas</button>
+    <span class="sep"></span>
+    <button data-t="all" class="active">Todo tipo</button>
+    <button data-t="Examen">Exámenes</button>
+    <button data-t="Tarea">Tareas</button>
+    <button data-t="Foro">Foros</button>
+  </div>
+
+  <div id="list"></div>
+
+  <button class="reset-btn" id="reset-btn">Reiniciar marcas guardadas</button>
+
+  <footer>Datos del ciclo 02-2026 · UDB Virtual · El progreso se guarda solo en este navegador (localStorage)</footer>
+</div>
+
+<script>
+const ACTIVIDADES = [
+  { id:'cad-foro',    m:'CAD', tipo:'Foro',   nombre:'Foro evaluado — U1 (clases 1–4)',            ini:null,       fin:'2026-08-28', peso:10 },
+  { id:'psc-fase1',   m:'PSC', tipo:'Tarea',  nombre:'Fase 1 de proyecto — VER (video)',           ini:null,       fin:'2026-09-10', peso:20 },
+  { id:'avm-prueba1', m:'AVM', tipo:'Examen', nombre:'Prueba escrita 1 — U1 + U2',                 ini:null,       fin:'2026-09-12', peso:20 },
+  { id:'cad-exam1',   m:'CAD', tipo:'Examen', nombre:'Examen Ordinario 1 — U1–U2',                 ini:'2026-09-12', fin:'2026-09-13', peso:20 },
+  { id:'cad-tarea1',  m:'CAD', tipo:'Tarea',  nombre:'Tarea 1 — Guías 1 y 2',                      ini:null,       fin:'2026-09-20', peso:10 },
+  { id:'avm-guia1',   m:'AVM', tipo:'Tarea',  nombre:'Cierre Guía 1 de ejercicios',                ini:null,       fin:'2026-09-26', peso:10 },
+  { id:'psc-foro1',   m:'PSC', tipo:'Foro',   nombre:'Foro 1 — problemáticas sociales desde el PSC', ini:'2026-09-28', fin:'2026-10-03', peso:15 },
+  { id:'avm-prueba2', m:'AVM', tipo:'Examen', nombre:'Prueba escrita 2 — U3',                      ini:null,       fin:'2026-10-17', peso:20 },
+  { id:'cad-exam2',   m:'CAD', tipo:'Examen', nombre:'Examen Ordinario 2 — U2–U3',                 ini:'2026-10-17', fin:'2026-10-18', peso:20 },
+  { id:'psc-foro2',   m:'PSC', tipo:'Foro',   nombre:'Foro 2 interactivo — fases I, II y III',     ini:'2026-10-19', fin:'2026-11-03', peso:15 },
+  { id:'cad-tarea2',  m:'CAD', tipo:'Tarea',  nombre:'Tarea 2 — Guía 3',                           ini:null,       fin:'2026-10-21', peso:10 },
+  { id:'avm-guia2',   m:'AVM', tipo:'Tarea',  nombre:'Cierre Guía 2 de ejercicios',                ini:null,       fin:'2026-10-24', peso:10 },
+  { id:'psc-fase2',   m:'PSC', tipo:'Tarea',  nombre:'Fase 2 de proyecto — JUZGAR (ensayo)',       ini:null,       fin:'2026-11-07', peso:25 },
+  { id:'avm-prueba3', m:'AVM', tipo:'Examen', nombre:'Prueba escrita 3 — U4 + U5',                 ini:null,       fin:'2026-11-14', peso:20 },
+  { id:'cad-exam3',   m:'CAD', tipo:'Examen', nombre:'Examen Ordinario 3 — U4',                    ini:'2026-11-14', fin:'2026-11-15', peso:20 },
+  { id:'avm-guia3',   m:'AVM', tipo:'Tarea',  nombre:'Cierre Guía 3 de ejercicios (con defensa)',  ini:null,       fin:'2026-11-24', peso:20 },
+  { id:'psc-fase3',   m:'PSC', tipo:'Tarea',  nombre:'Fase 3 de proyecto — ACTUAR (podcast)',      ini:null,       fin:'2026-11-28', peso:25 },
+  { id:'cad-tarea3',  m:'CAD', tipo:'Tarea',  nombre:'Tarea 3 — Guía 5 + video',                   ini:null,       fin:'2026-12-01', peso:10 },
+];
+
+const HOY = new Date('2026-10-02T12:00:00');
+const DAY_MS = 86400000;
+const STORE_KEY = 'udb-ciclo-022026-done';
+
+function diasHasta(fin) {
+  const f = new Date(fin + 'T23:59:00');
+  return Math.ceil((f - HOY) / DAY_MS);
+}
+
+function fmtFecha(a) {
+  const meses = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  const parse = s => { const [y,m,d] = s.split('-').map(Number); return { d, m: meses[m-1] }; };
+  if (!a.ini) return parse(a.fin).d + ' ' + parse(a.fin).m;
+  const i = parse(a.ini), f = parse(a.fin);
+  if (i.m === f.m) return i.d + '–' + f.d + ' ' + f.m;
+  return i.d + ' ' + i.m + ' – ' + f.d + ' ' + f.m;
+}
+
+let done = {};
+try { done = JSON.parse(localStorage.getItem(STORE_KEY) || '{}'); } catch(e) { done = {}; }
+
+function guardar() { localStorage.setItem(STORE_KEY, JSON.stringify(done)); }
+
+let filtroM = 'all', filtroS = 'pending', filtroT = 'all';
+
+function render() {
+  const ordenadas = [...ACTIVIDADES].sort((a,b) => a.fin.localeCompare(b.fin));
+
+  const hecho = a => done[a.id] === true;
+  const expirado = a => diasHasta(a.fin) < 0;
+
+  // Progreso
+  const pesoTotal = ACTIVIDADES.reduce((s,a) => s + a.peso, 0);
+  const pesoMio = ACTIVIDADES.reduce((s,a) => s + (hecho(a) ? a.peso : 0), 0);
+  const pesoEsp = ACTIVIDADES.reduce((s,a) => s + (expirado(a) || hecho(a) ? a.peso : 0), 0);
+  const pctM = Math.round(pesoMio / pesoTotal * 100);
+  const pctE = Math.round(pesoEsp / pesoTotal * 100);
+  document.getElementById('pct-mine').textContent = pctM + '%';
+  document.getElementById('pct-expected').textContent = pctE + '%';
+  document.getElementById('bar-mine').style.width = pctM + '%';
+  document.getElementById('bar-expected').style.width = pctE + '%';
+  const nHechas = ACTIVIDADES.filter(hecho).length;
+  document.getElementById('progress-stats').innerHTML =
+    '<span>' + nHechas + ' / ' + ACTIVIDADES.length + ' actividades hechas</span>' +
+    '<span>Nota potencial: ' + pesoMio + ' / ' + pesoTotal + ' puntos</span>';
+
+  // Próximo vencimiento (no hechas, no expiradas)
+  const proximas = ordenadas.filter(a => !hecho(a) && diasHasta(a.fin) >= 0);
+  if (proximas.length) {
+    const p = proximas[0];
+    const d = diasHasta(p.fin);
+    document.getElementById('next-txt').textContent =
+      p.nombre + ' (' + p.m + ') · ' + fmtFecha(p) + ' · ' + (d === 0 ? '¡cierra hoy!' : 'en ' + d + (d === 1 ? ' día' : ' días'));
+  } else {
+    document.getElementById('next-txt').textContent = '— no hay pendientes —';
+  }
+
+  // Lista filtrada
+  const visibles = ordenadas.filter(a => {
+    if (filtroM !== 'all' && a.m !== filtroM) return false;
+    if (filtroT !== 'all' && a.tipo !== filtroT) return false;
+    if (filtroS === 'done') return hecho(a);
+    if (filtroS === 'pending') return !hecho(a);
+    return true;
+  });
+
+  const list = document.getElementById('list');
+  if (!visibles.length) {
+    list.innerHTML = '<div class="empty">Nada por aquí con esos filtros.</div>';
+    return;
+  }
+
+  list.innerHTML = visibles.map(a => {
+    const d = diasHasta(a.fin);
+    const isDone = hecho(a);
+    const isPast = d < 0 && !isDone;
+    const isUrgent = !isDone && d >= 0 && d <= 3;
+    const isSoon = !isDone && d >= 4 && d <= 7;
+
+    let daysLabel, daysClass;
+    if (isDone) { daysLabel = 'hecho'; daysClass = 'past'; }
+    else if (isPast) { daysLabel = 'cerrado'; daysClass = 'past'; }
+    else if (d === 0) { daysLabel = '¡hoy!'; daysClass = 'urgent'; }
+    else if (d === 1) { daysLabel = '1 día'; daysClass = 'urgent'; }
+    else { daysLabel = d + ' días'; daysClass = isUrgent ? 'urgent' : (isSoon ? 'soon' : ''); }
+
+    return '<div class="card' + (isDone ? ' done-card' : '') + (isPast && !isDone ? ' is-past' : '') + (isUrgent ? ' is-urgent' : '') + (isSoon ? ' is-soon' : '') + '">' +
+      '<input type="checkbox" class="check"' + (isDone ? ' checked' : '') + ' data-id="' + a.id + '">' +
+      '<div class="date">' + fmtFecha(a) + '</div>' +
+      '<div class="info"><div class="title">' + a.nombre + '</div></div>' +
+      '<span class="days ' + daysClass + '">' + daysLabel + '</span>' +
+      '<span class="tag ' + a.m.toLowerCase() + '">' + a.m + '</span>' +
+      '<span class="tag tipo">' + a.tipo + '</span>' +
+      '<span class="pct">' + a.peso + '%</span>' +
+      '</div>';
+  }).join('');
+}
+
+document.getElementById('list').addEventListener('change', e => {
+  if (e.target.classList.contains('check')) {
+    const id = e.target.dataset.id;
+    if (e.target.checked) done[id] = true; else delete done[id];
+    guardar();
+    render();
+  }
+});
+
+document.getElementById('filters').addEventListener('click', e => {
+  const btn = e.target.closest('button');
+  if (!btn) return;
+  if (btn.dataset.m !== undefined) {
+    filtroM = btn.dataset.m;
+    document.querySelectorAll('#filters [data-m]').forEach(b => b.classList.toggle('active', b === btn));
+  } else if (btn.dataset.s !== undefined) {
+    filtroS = btn.dataset.s;
+    document.querySelectorAll('#filters [data-s]').forEach(b => b.classList.toggle('active', b === btn));
+  } else if (btn.dataset.t !== undefined) {
+    filtroT = btn.dataset.t;
+    document.querySelectorAll('#filters [data-t]').forEach(b => b.classList.toggle('active', b === btn));
+  }
+  render();
+});
+
+document.getElementById('reset-btn').addEventListener('click', () => {
+  if (confirm('¿Borrar todas las marcas guardadas en este navegador?')) {
+    done = {};
+    guardar();
+    render();
+  }
+});
+
+render();
+</script>
+</body>
+</html>
