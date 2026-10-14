@@ -471,6 +471,36 @@
     .flow-item strong { display: block; margin-bottom: 5px; font-size: 1rem; }
     .flow-item span { display: block; color: var(--ink-soft); font-size: .8rem; }
 
+    .flow-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: -5px 0 14px;
+    }
+
+    .flow-legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 10px;
+      color: var(--ink-soft);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--card);
+      font-size: .76rem;
+      font-weight: 800;
+    }
+
+    .legend-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .legend-dot.own { background: var(--blue); }
+    .legend-dot.compare { background: var(--mint); }
+
     .pair-grid {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
@@ -766,6 +796,11 @@
           <h2 id="cascade-title">Cada bloque tiene una segunda mirada.</h2>
         </div>
         <p>La flecha indica qué bloque extra realiza cada integrante. De esta manera, todas las soluciones seleccionadas tienen una comparación independiente.</p>
+      </div>
+
+      <div class="flow-legend" aria-label="Leyenda del flujo">
+        <span><i class="legend-dot own"></i> Resuelve primero</span>
+        <span><i class="legend-dot compare"></i> Compara con</span>
       </div>
 
       <div class="flow" aria-label="Flujo de verificación">
