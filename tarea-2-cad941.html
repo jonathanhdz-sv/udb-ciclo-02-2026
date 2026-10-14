@@ -1,0 +1,813 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Reparto y verificación cruzada para la Tarea 2 de Cálculo Diferencial CAD941.">
+  <title>Reparto Tarea 2 | CAD941</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --ink-soft: #536079;
+      --navy: #12294b;
+      --navy-2: #1b3b68;
+      --paper: #f6f3eb;
+      --card: #fffdf8;
+      --line: #ddd9ce;
+      --blue: #3878e8;
+      --coral: #f07257;
+      --gold: #efb64e;
+      --mint: #3aa996;
+      --violet: #826be2;
+      --shadow: 0 18px 50px rgba(23, 32, 51, .12);
+      --small-shadow: 0 8px 22px rgba(23, 32, 51, .08);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 8% 5%, rgba(56, 120, 232, .12), transparent 24rem),
+        radial-gradient(circle at 93% 25%, rgba(240, 114, 87, .10), transparent 22rem),
+        var(--paper);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+
+    .page-shell {
+      width: min(1160px, calc(100% - 32px));
+      margin: 28px auto 56px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(24px, 5vw, 54px);
+      color: #fff;
+      border-radius: 30px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.04), transparent 45%),
+        linear-gradient(135deg, var(--navy), var(--navy-2));
+      box-shadow: var(--shadow);
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      border: 1px solid rgba(255,255,255,.13);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero::before { top: -125px; right: 7%; box-shadow: 0 0 0 18px rgba(255,255,255,.025), 0 0 0 36px rgba(255,255,255,.025); }
+    .hero::after { bottom: -170px; left: -70px; width: 290px; height: 290px; border-color: rgba(240,114,87,.2); }
+
+    .topline,
+    .hero-grid,
+    .stats { position: relative; z-index: 1; }
+
+    .topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 42px;
+      color: rgba(255,255,255,.72);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 30px;
+      height: 30px;
+      place-items: center;
+      color: var(--navy);
+      background: #fff;
+      border-radius: 9px;
+      font-size: .7rem;
+      letter-spacing: -.05em;
+    }
+
+    .due {
+      padding: 7px 11px;
+      color: #ffe5a7;
+      border: 1px solid rgba(255,229,167,.36);
+      border-radius: 999px;
+      background: rgba(239,182,78,.13);
+      letter-spacing: .07em;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(260px, .65fr);
+      gap: 48px;
+      align-items: end;
+    }
+
+    .eyebrow {
+      margin: 0 0 13px;
+      color: #8fc0ff;
+      font-size: .8rem;
+      font-weight: 900;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+
+    h1 {
+      max-width: 720px;
+      margin-bottom: 18px;
+      font-size: clamp(2.3rem, 6vw, 5.2rem);
+      line-height: .98;
+      letter-spacing: -.065em;
+    }
+
+    .hero-copy {
+      max-width: 650px;
+      margin-bottom: 0;
+      color: rgba(255,255,255,.76);
+      font-size: clamp(1rem, 2vw, 1.14rem);
+    }
+
+    .hero-note {
+      padding: 22px;
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 18px;
+      background: rgba(255,255,255,.08);
+      backdrop-filter: blur(10px);
+    }
+
+    .hero-note strong {
+      display: block;
+      margin-bottom: 7px;
+      color: #ffe0a1;
+      font-size: 1.7rem;
+      line-height: 1;
+      letter-spacing: -.04em;
+    }
+
+    .hero-note span {
+      display: block;
+      color: rgba(255,255,255,.72);
+      font-size: .88rem;
+    }
+
+    .hero-image {
+      position: relative;
+      z-index: 1;
+      margin: 34px 0 0;
+    }
+
+    .hero-image img {
+      display: block;
+      width: 100%;
+      max-height: 330px;
+      object-fit: cover;
+      object-position: center;
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 18px;
+      box-shadow: 0 15px 30px rgba(0,0,0,.2);
+    }
+
+    .hero-image figcaption {
+      margin-top: 8px;
+      color: rgba(255,255,255,.57);
+      font-size: .74rem;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 48px;
+    }
+
+    .stat {
+      padding: 15px 16px;
+      border-top: 1px solid rgba(255,255,255,.2);
+    }
+
+    .stat strong { display: block; margin-bottom: 2px; font-size: 1.35rem; letter-spacing: -.03em; }
+    .stat span { color: rgba(255,255,255,.58); font-size: .77rem; }
+
+    .section { margin-top: 64px; }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 20px;
+    }
+
+    .section-heading h2 {
+      margin-bottom: 0;
+      font-size: clamp(1.55rem, 3vw, 2.25rem);
+      line-height: 1;
+      letter-spacing: -.05em;
+    }
+
+    .section-heading p {
+      max-width: 510px;
+      margin-bottom: 0;
+      color: var(--ink-soft);
+      font-size: .95rem;
+    }
+
+    .rule-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .rule {
+      min-height: 168px;
+      padding: 23px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255,253,248,.7);
+      box-shadow: var(--small-shadow);
+    }
+
+    .rule-number {
+      display: inline-grid;
+      width: 31px;
+      height: 31px;
+      place-items: center;
+      margin-bottom: 30px;
+      color: #fff;
+      border-radius: 10px;
+      background: var(--coral);
+      font-size: .77rem;
+      font-weight: 900;
+    }
+
+    .rule:nth-child(2) .rule-number { background: var(--blue); }
+    .rule:nth-child(3) .rule-number { background: var(--mint); }
+    .rule h3 { margin-bottom: 7px; font-size: 1rem; }
+    .rule p { margin-bottom: 0; color: var(--ink-soft); font-size: .9rem; }
+
+    .notice {
+      display: flex;
+      gap: 13px;
+      align-items: flex-start;
+      margin-top: 14px;
+      padding: 16px 18px;
+      color: #674812;
+      border: 1px solid #f1d58e;
+      border-radius: 14px;
+      background: #fff5d8;
+      font-size: .9rem;
+    }
+
+    .notice strong { color: #4f3407; }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 13px;
+      align-items: stretch;
+    }
+
+    .person-card {
+      --accent: var(--blue);
+      position: relative;
+      display: flex;
+      min-width: 0;
+      flex-direction: column;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--card);
+      box-shadow: var(--small-shadow);
+    }
+
+    .person-card::before { content: ""; display: block; height: 5px; background: var(--accent); }
+    .person-card.kirby { --accent: var(--violet); }
+    .person-card.mario { --accent: var(--coral); }
+    .person-card.link { --accent: var(--gold); }
+    .person-card.luigi { --accent: var(--mint); }
+    .person-card.peach { --accent: #e58ab0; }
+
+    .card-inner { display: flex; height: 100%; flex-direction: column; padding: 17px; }
+
+    .card-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .character {
+      display: grid;
+      width: 47px;
+      height: 47px;
+      flex: 0 0 auto;
+      place-items: center;
+      border-radius: 15px;
+      background: color-mix(in srgb, var(--accent) 16%, white);
+      font-size: 1.65rem;
+    }
+
+    .role {
+      margin-bottom: 1px;
+      color: var(--accent);
+      font-size: .68rem;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .card-head h3 { margin: 0; font-size: 1.05rem; letter-spacing: -.03em; }
+
+    .member-slot {
+      display: block;
+      margin-bottom: 15px;
+      padding: 8px 9px;
+      color: var(--ink-soft);
+      border: 1px dashed var(--line);
+      border-radius: 8px;
+      background: #fcfbf7;
+      font-size: .7rem;
+      font-weight: 800;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .assignment {
+      margin-bottom: 11px;
+      padding: 12px;
+      border-radius: 12px;
+      background: #f4f6fa;
+    }
+
+    .assignment.compare { background: color-mix(in srgb, var(--accent) 8%, white); }
+
+    .assignment-label {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--ink-soft);
+      font-size: .67rem;
+      font-weight: 900;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+
+    .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+
+    .exercise {
+      display: inline-flex;
+      padding: 4px 7px;
+      color: var(--ink);
+      border: 1px solid rgba(23,32,51,.1);
+      border-radius: 7px;
+      background: #fff;
+      font-family: "SFMono-Regular", Consolas, monospace;
+      font-size: .75rem;
+      font-weight: 800;
+    }
+
+    .assignment-note {
+      margin: 8px 0 0;
+      color: var(--ink-soft);
+      font-size: .76rem;
+      line-height: 1.4;
+    }
+
+    .duty {
+      display: flex;
+      gap: 7px;
+      align-items: flex-start;
+      margin-top: auto;
+      padding-top: 11px;
+      color: var(--ink-soft);
+      border-top: 1px dashed var(--line);
+      font-size: .77rem;
+    }
+
+    .duty strong { color: var(--ink); }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0;
+      padding: 24px 10px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: var(--card);
+      box-shadow: var(--small-shadow);
+    }
+
+    .flow-item {
+      position: relative;
+      min-width: 0;
+      padding: 0 17px;
+      text-align: center;
+    }
+
+    .flow-item:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      top: 18px;
+      right: -8px;
+      color: var(--coral);
+      font-size: 1.25rem;
+      font-weight: 900;
+    }
+
+    .flow-icon {
+      display: grid;
+      width: 43px;
+      height: 43px;
+      margin: 0 auto 9px;
+      place-items: center;
+      border-radius: 14px;
+      background: #edf2fb;
+      font-size: 1.25rem;
+    }
+
+    .flow-item strong { display: block; margin-bottom: 4px; font-size: .88rem; }
+    .flow-item span { display: block; color: var(--ink-soft); font-size: .74rem; }
+
+    .pair-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 11px;
+      margin-top: 14px;
+    }
+
+    .pair {
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255,253,248,.66);
+    }
+
+    .pair-label {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--ink-soft);
+      font-size: .68rem;
+      font-weight: 900;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .pair strong { display: block; margin-bottom: 9px; font-family: "SFMono-Regular", Consolas, monospace; font-size: .82rem; }
+    .pair small { color: var(--ink-soft); font-size: .75rem; }
+
+    .compare-note {
+      margin-top: 14px;
+      padding: 15px 17px;
+      color: #244c45;
+      border-left: 4px solid var(--mint);
+      border-radius: 0 12px 12px 0;
+      background: #e8f5f1;
+      font-size: .9rem;
+    }
+
+    .closing-grid {
+      display: grid;
+      grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
+      gap: 16px;
+    }
+
+    .panel {
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 19px;
+      background: var(--card);
+      box-shadow: var(--small-shadow);
+    }
+
+    .panel h3 { margin-bottom: 16px; font-size: 1.1rem; letter-spacing: -.03em; }
+
+    .steps { display: grid; gap: 13px; }
+
+    .step {
+      display: grid;
+      grid-template-columns: 30px 1fr;
+      gap: 10px;
+      align-items: start;
+    }
+
+    .step-number {
+      display: grid;
+      width: 26px;
+      height: 26px;
+      place-items: center;
+      color: #fff;
+      border-radius: 8px;
+      background: var(--navy);
+      font-size: .72rem;
+      font-weight: 900;
+    }
+
+    .step strong { display: block; margin-bottom: 2px; font-size: .88rem; }
+    .step span { color: var(--ink-soft); font-size: .82rem; }
+
+    .checklist { display: grid; gap: 10px; }
+
+    .check-row {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      color: var(--ink-soft);
+      font-size: .86rem;
+      cursor: pointer;
+    }
+
+    .check-mark {
+      display: inline-grid;
+      width: 18px;
+      height: 18px;
+      flex: 0 0 auto;
+      place-items: center;
+      color: #fff;
+      border-radius: 50%;
+      background: var(--mint);
+      font-size: .7rem;
+      font-weight: 900;
+    }
+
+    .order-box {
+      margin-top: 18px;
+      padding: 12px;
+      color: var(--ink-soft);
+      border: 1px dashed var(--line);
+      border-radius: 10px;
+      background: #faf9f5;
+      font-size: .78rem;
+    }
+
+    .order-box strong { color: var(--ink); }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      margin-top: 30px;
+      padding: 18px 2px 0;
+      color: var(--ink-soft);
+      border-top: 1px solid var(--line);
+      font-size: .78rem;
+    }
+
+    @media (max-width: 980px) {
+      .team-grid { grid-template-columns: repeat(3, 1fr); }
+      .pair-grid { grid-template-columns: repeat(3, 1fr); }
+      .flow { grid-template-columns: repeat(3, 1fr); gap: 25px 0; }
+      .flow-item:nth-child(3)::after { display: none; }
+    }
+
+    @media (max-width: 720px) {
+      .page-shell { width: min(100% - 20px, 600px); margin-top: 10px; }
+      .hero { border-radius: 22px; }
+      .topline { margin-bottom: 30px; }
+      .hero-grid, .closing-grid { grid-template-columns: 1fr; gap: 24px; }
+      .hero-image img { max-height: 250px; }
+      .stats { grid-template-columns: repeat(2, 1fr); margin-top: 32px; }
+      .rule-grid { grid-template-columns: 1fr; }
+      .rule { min-height: auto; }
+      .team-grid, .pair-grid { grid-template-columns: repeat(2, 1fr); }
+      .section { margin-top: 45px; }
+      .section-heading { display: block; }
+      .section-heading h2 { margin-bottom: 10px; }
+      .flow { grid-template-columns: 1fr; gap: 14px; }
+      .flow-item { display: grid; grid-template-columns: 43px 1fr; gap: 11px; align-items: center; padding: 0 14px; text-align: left; }
+      .flow-icon { grid-row: span 2; margin: 0; }
+      .flow-item:not(:last-child)::after { top: auto; right: auto; bottom: -17px; left: 32px; content: "↓"; }
+      footer { display: block; }
+      footer span { display: block; margin-bottom: 5px; }
+    }
+
+    @media (max-width: 460px) {
+      h1 { font-size: 2.65rem; }
+      .topline { align-items: flex-start; flex-direction: column; gap: 10px; }
+      .team-grid, .pair-grid { grid-template-columns: 1fr; }
+      .card-inner { padding: 16px; }
+    }
+
+    @media print {
+      @page { size: A4; margin: 12mm; }
+      body { background: #fff; }
+      .page-shell { width: 100%; margin: 0; }
+      .hero, .panel, .person-card, .flow, .rule, .pair { box-shadow: none; }
+      .hero { padding: 28px; border-radius: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .hero-image img { max-height: 260px; }
+      .section { margin-top: 30px; }
+      .person-card, .panel, .rule, .pair, .flow { break-inside: avoid; }
+      .team-grid { grid-template-columns: repeat(2, 1fr); }
+      .pair-grid { grid-template-columns: repeat(3, 1fr); }
+      .flow { grid-template-columns: repeat(5, 1fr); }
+      .flow-item:not(:last-child)::after { display: block; }
+      .check-mark { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page-shell">
+    <header class="hero">
+      <div class="topline">
+        <span class="brand"><span class="brand-mark">UDB</span> Cálculo Diferencial · CAD941</span>
+        <span class="due">ENTREGA · 21 OCTUBRE</span>
+      </div>
+
+      <div class="hero-grid">
+        <div>
+          <p class="eyebrow">Tarea 2 · Guía de ejercicios 3</p>
+          <h1>Una guía.<br>Dos soluciones por bloque.</h1>
+          <p class="hero-copy">El equipo no necesita resolver la guía completa. Cada integrante tiene dos ejercicios propios y verifica los dos ejercicios de otra persona. Al final se compara el procedimiento y se incorpora la versión más clara al PDF.</p>
+        </div>
+
+        <aside class="hero-note">
+          <strong>10 × 10%</strong>
+          <span>La tarea contiene diez ejercicios seleccionados. La verificación adicional sirve para comparar, no para resolver toda la guía.</span>
+        </aside>
+      </div>
+
+      <figure class="hero-image">
+        <img src="https://i.ibb.co/8n2RgZjy/Gemini-Generated-Image-laz30ylaz30ylaz3.jpg" alt="Mario, Luigi, Link, Kirby y Peach juntos en un paisaje" loading="eager">
+        <figcaption>Personajes del sorteo para identificar los roles del equipo.</figcaption>
+      </figure>
+
+      <div class="stats" aria-label="Resumen de la tarea">
+        <div class="stat"><strong>5</strong><span>integrantes</span></div>
+        <div class="stat"><strong>10</strong><span>bloques seleccionados</span></div>
+        <div class="stat"><strong>2 + 2</strong><span>propios + comparación</span></div>
+        <div class="stat"><strong>1</strong><span>PDF final</span></div>
+      </div>
+    </header>
+
+    <section class="section" aria-labelledby="rule-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow" style="color: var(--coral);">La regla del equipo</p>
+          <h2 id="rule-title">Trabajo repartido, revisión real.</h2>
+        </div>
+        <p>La comparación evita depender de una sola solución y permite corregir errores antes de unir las páginas.</p>
+      </div>
+
+      <div class="rule-grid">
+        <article class="rule">
+          <span class="rule-number">01</span>
+          <h3>Resolver lo propio</h3>
+          <p>Cada persona entrega completos sus dos ejercicios asignados, con el procedimiento escrito a mano.</p>
+        </article>
+        <article class="rule">
+          <span class="rule-number">02</span>
+          <h3>Verificar otro bloque</h3>
+          <p>Cada persona resuelve además los dos ejercicios de otro compañero para comparar resultados y pasos.</p>
+        </article>
+        <article class="rule">
+          <span class="rule-number">03</span>
+          <h3>Elegir y unir</h3>
+          <p>Cada responsable compara las dos versiones de sus ejercicios y decide cuál solución correcta y clara se incorpora a la guía.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="team-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow" style="color: var(--blue);">Sorteo de personajes</p>
+          <h2 id="team-title">Reparto de roles</h2>
+        </div>
+        <p>El sorteo asigna un personaje a cada rol. Los ejercicios quedan definidos en esta página y cualquier cambio se hace directamente en el archivo.</p>
+      </div>
+
+      <div class="team-grid">
+        <article class="person-card kirby">
+          <div class="card-inner">
+            <div class="card-head"><span class="character">⭐</span><div><span class="role">Rol A</span><h3>Kirby</h3></div></div>
+            <div class="member-slot">Integrante asignado: __________________</div>
+            <div class="assignment"><span class="assignment-label">Resuelve primero</span><div class="chips"><span class="exercise">1.c</span><span class="exercise">3.yy</span></div><p class="assignment-note">El 1.c contiene los límites de la gráfica.</p></div>
+            <div class="assignment compare"><span class="assignment-label">Compara con</span><div class="chips"><span class="exercise">2.ff</span><span class="exercise">2.kk</span></div><p class="assignment-note">Esta solución será comparada con la de Peach.</p></div>
+            <div class="duty"><span>↗</span><span><strong>Entrega:</strong> sus páginas propias y la verificación.</span></div>
+          </div>
+        </article>
+
+        <article class="person-card mario">
+          <div class="card-inner">
+            <div class="card-head"><span class="character">🍄</span><div><span class="role">Rol B</span><h3>Mario</h3></div></div>
+            <div class="member-slot">Integrante asignado: __________________</div>
+            <div class="assignment"><span class="assignment-label">Resuelve primero</span><div class="chips"><span class="exercise">2.xx</span><span class="exercise">3.q</span></div><p class="assignment-note">Resolver mostrando las racionalizaciones y los límites laterales que correspondan.</p></div>
+            <div class="assignment compare"><span class="assignment-label">Compara con</span><div class="chips"><span class="exercise">5.u</span><span class="exercise">7.III</span></div><p class="assignment-note">Esta solución será comparada con la de Link.</p></div>
+            <div class="duty"><span>↗</span><span><strong>Entrega:</strong> sus páginas propias y la verificación.</span></div>
+          </div>
+        </article>
+
+        <article class="person-card link">
+          <div class="card-inner">
+            <div class="card-head"><span class="character">🗡️</span><div><span class="role">Rol C</span><h3>Link</h3></div></div>
+            <div class="member-slot">Integrante asignado: __________________</div>
+            <div class="assignment"><span class="assignment-label">Resuelve primero</span><div class="chips"><span class="exercise">5.u</span><span class="exercise">7.III</span></div><p class="assignment-note">En 7.III se debe indicar si la discontinuidad es removible.</p></div>
+            <div class="assignment compare"><span class="assignment-label">Compara con</span><div class="chips"><span class="exercise">1.c</span><span class="exercise">3.yy</span></div><p class="assignment-note">Esta solución será comparada con la de Kirby.</p></div>
+            <div class="duty"><span>↗</span><span><strong>Entrega:</strong> sus páginas propias y la verificación.</span></div>
+          </div>
+        </article>
+
+        <article class="person-card luigi">
+          <div class="card-inner">
+            <div class="card-head"><span class="character">🟢</span><div><span class="role">Rol D</span><h3>Luigi</h3></div></div>
+            <div class="member-slot">Integrante asignado: __________________</div>
+            <div class="assignment"><span class="assignment-label">Resuelve primero</span><div class="chips"><span class="exercise">8.h</span><span class="exercise">5.n</span></div><p class="assignment-note">En 8.h se deben encontrar los valores de a y b.</p></div>
+            <div class="assignment compare"><span class="assignment-label">Compara con</span><div class="chips"><span class="exercise">2.xx</span><span class="exercise">3.q</span></div><p class="assignment-note">Esta solución será comparada con la de Mario.</p></div>
+            <div class="duty"><span>↗</span><span><strong>Entrega:</strong> sus páginas propias y la verificación.</span></div>
+          </div>
+        </article>
+
+        <article class="person-card peach">
+          <div class="card-inner">
+            <div class="card-head"><span class="character">👑</span><div><span class="role">Rol E</span><h3>Peach</h3></div></div>
+            <div class="member-slot">Integrante asignado: __________________</div>
+            <div class="assignment"><span class="assignment-label">Resuelve primero</span><div class="chips"><span class="exercise">2.ff</span><span class="exercise">2.kk</span></div><p class="assignment-note">Son los ejercicios propios de menor extensión.</p></div>
+            <div class="assignment compare"><span class="assignment-label">Compara con</span><div class="chips"><span class="exercise">8.h</span><span class="exercise">5.n</span></div><p class="assignment-note">Esta solución será comparada con la de Luigi.</p></div>
+            <div class="duty"><span>✦</span><span><strong>Extra:</strong> reunir, ordenar y convertir el trabajo final a PDF.</span></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="cascade-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow" style="color: var(--mint);">La cadena</p>
+          <h2 id="cascade-title">Cada bloque tiene una segunda mirada.</h2>
+        </div>
+        <p>La flecha indica qué bloque extra realiza cada integrante. De esta manera, todas las soluciones seleccionadas tienen una comparación independiente.</p>
+      </div>
+
+      <div class="flow" aria-label="Flujo de verificación">
+        <div class="flow-item"><span class="flow-icon">⭐</span><strong>Kirby</strong><span>comprueba a Peach</span></div>
+        <div class="flow-item"><span class="flow-icon">🍄</span><strong>Mario</strong><span>comprueba a Link</span></div>
+        <div class="flow-item"><span class="flow-icon">🗡️</span><strong>Link</strong><span>comprueba a Kirby</span></div>
+        <div class="flow-item"><span class="flow-icon">🟢</span><strong>Luigi</strong><span>comprueba a Mario</span></div>
+        <div class="flow-item"><span class="flow-icon">👑</span><strong>Peach</strong><span>comprueba a Luigi</span></div>
+      </div>
+
+      <div class="pair-grid">
+        <div class="pair"><span class="pair-label">Bloque 01</span><strong>1.c + 3.yy</strong><small>Kirby ↔ Link</small></div>
+        <div class="pair"><span class="pair-label">Bloque 02</span><strong>2.xx + 3.q</strong><small>Mario ↔ Luigi</small></div>
+        <div class="pair"><span class="pair-label">Bloque 03</span><strong>5.u + 7.III</strong><small>Link ↔ Mario</small></div>
+        <div class="pair"><span class="pair-label">Bloque 04</span><strong>8.h + 5.n</strong><small>Luigi ↔ Peach</small></div>
+        <div class="pair"><span class="pair-label">Bloque 05</span><strong>2.ff + 2.kk</strong><small>Peach ↔ Kirby</small></div>
+      </div>
+
+      <div class="compare-note"><strong>Decisión de cada responsable:</strong> comparen las dos soluciones de sus ejercicios, revisen factorización, racionalización, límites laterales, continuidad y procedimiento completo. La versión elegida por cada responsable será la que se incorpore a la guía.</div>
+    </section>
+
+    <section class="section" aria-labelledby="closing-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow" style="color: var(--violet);">Cierre de la entrega</p>
+          <h2 id="closing-title">De las hojas al PDF.</h2>
+        </div>
+        <p>La integración final es una responsabilidad de organización. El contenido se decide entre la persona que resolvió y quien verificó.</p>
+      </div>
+
+      <div class="closing-grid">
+        <article class="panel">
+          <h3>Proceso acordado</h3>
+          <div class="steps">
+            <div class="step"><span class="step-number">1</span><div><strong>Resolver en hojas separadas</strong><span>Cada integrante escribe el procedimiento completo a mano.</span></div></div>
+            <div class="step"><span class="step-number">2</span><div><strong>Resolver el bloque extra</strong><span>La segunda solución debe hacerse sin copiar la primera.</span></div></div>
+            <div class="step"><span class="step-number">3</span><div><strong>Comparar entre ambos</strong><span>Se revisan pasos y resultado; si hay diferencia, se corrige antes de unir.</span></div></div>
+            <div class="step"><span class="step-number">4</span><div><strong>Seleccionar la versión final</strong><span>Cada responsable decide cuál de las dos soluciones de sus ejercicios es más correcta, completa y legible.</span></div></div>
+            <div class="step"><span class="step-number">5</span><div><strong>Escanear y unir</strong><span>Peach reúne las páginas, respeta el orden y comparte el PDF para una última revisión.</span></div></div>
+          </div>
+        </article>
+
+        <article class="panel">
+            <h3>Acuerdo de entrega</h3>
+            <div class="checklist">
+            <div class="check-row"><span class="check-mark">✓</span><span>Cada integrante resuelve sus dos ejercicios propios.</span></div>
+            <div class="check-row"><span class="check-mark">✓</span><span>Cada integrante resuelve los dos ejercicios extra que le corresponden.</span></div>
+            <div class="check-row"><span class="check-mark">✓</span><span>Cada responsable elige la versión que se incorporará a la guía.</span></div>
+            <div class="check-row"><span class="check-mark">✓</span><span>Peach reúne las páginas elegidas y comparte el PDF para una última revisión.</span></div>
+            </div>
+          <div class="order-box"><strong>Orden sugerido:</strong> 1.c, 2.ff, 2.kk, 2.xx, 3.q, 3.yy, 5.n, 5.u, 7.III y 8.h.</div>
+        </article>
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>
