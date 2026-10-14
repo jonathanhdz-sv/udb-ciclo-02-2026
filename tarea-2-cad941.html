@@ -7,20 +7,20 @@
   <title>Reparto Tarea 2 | CAD941</title>
   <style>
     :root {
-      --ink: #172033;
-      --ink-soft: #536079;
-      --navy: #12294b;
-      --navy-2: #1b3b68;
-      --paper: #f6f3eb;
-      --card: #fffdf8;
-      --line: #ddd9ce;
-      --blue: #3878e8;
-      --coral: #f07257;
-      --gold: #efb64e;
-      --mint: #3aa996;
-      --violet: #826be2;
-      --shadow: 0 18px 50px rgba(23, 32, 51, .12);
-      --small-shadow: 0 8px 22px rgba(23, 32, 51, .08);
+      --ink: #e8edf7;
+      --ink-soft: #9aa8bd;
+      --navy: #0d1d36;
+      --navy-2: #182f50;
+      --paper: #06080d;
+      --card: #101621;
+      --line: #263245;
+      --blue: #78aafc;
+      --coral: #ff846b;
+      --gold: #f3c86b;
+      --mint: #69d2bb;
+      --violet: #a18fff;
+      --shadow: 0 18px 50px rgba(0, 0, 0, .34);
+      --small-shadow: 0 8px 22px rgba(0, 0, 0, .24);
     }
 
     * { box-sizing: border-box; }
@@ -30,7 +30,7 @@
     body {
       margin: 0;
       color: var(--ink);
-      background: #000;
+      background: var(--paper);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
       line-height: 1.5;
     }
@@ -256,7 +256,7 @@
       padding: 23px;
       border: 1px solid var(--line);
       border-radius: 18px;
-      background: rgba(255,253,248,.7);
+      background: var(--card);
       box-shadow: var(--small-shadow);
     }
 
@@ -336,7 +336,7 @@
       flex: 0 0 auto;
       place-items: center;
       border-radius: 15px;
-      background: color-mix(in srgb, var(--accent) 16%, white);
+      background: color-mix(in srgb, var(--accent) 18%, #121a27);
       font-size: 1.65rem;
     }
 
@@ -358,7 +358,7 @@
       color: var(--ink-soft);
       border: 1px dashed var(--line);
       border-radius: 8px;
-      background: #fcfbf7;
+      background: #0b1019;
       font-size: .7rem;
       font-weight: 800;
       letter-spacing: .04em;
@@ -369,10 +369,10 @@
       margin-bottom: 11px;
       padding: 12px;
       border-radius: 12px;
-      background: #f4f6fa;
+      background: #0b111c;
     }
 
-    .assignment.compare { background: color-mix(in srgb, var(--accent) 8%, white); }
+    .assignment.compare { background: #182536; }
 
     .assignment-label {
       display: block;
@@ -390,9 +390,9 @@
       display: inline-flex;
       padding: 4px 7px;
       color: var(--ink);
-      border: 1px solid rgba(23,32,51,.1);
+      border: 1px solid #2b394e;
       border-radius: 7px;
-      background: #fff;
+      background: #151e2c;
       font-family: "SFMono-Regular", Consolas, monospace;
       font-size: .75rem;
       font-weight: 800;
@@ -452,19 +452,19 @@
       height: 82px;
       margin: 0 auto 12px;
       place-items: center;
-      border: 3px solid #dfe7f7;
+      border: 3px solid #2c3b52;
       border-radius: 24px;
-      background: #edf2fb;
-      box-shadow: 0 8px 18px rgba(23,32,51,.1);
+      background: #182233;
+      box-shadow: 0 8px 18px rgba(0,0,0,.28);
       font-size: 2.65rem;
       line-height: 1;
     }
 
-    .flow-item:nth-child(1) .flow-icon { border-color: #cfc1ff; background: #f0ebff; }
-    .flow-item:nth-child(2) .flow-icon { border-color: #ffc6ae; background: #fff0e8; }
-    .flow-item:nth-child(3) .flow-icon { border-color: #f1d27b; background: #fff8df; }
-    .flow-item:nth-child(4) .flow-icon { border-color: #a7ddcf; background: #e8f7f3; }
-    .flow-item:nth-child(5) .flow-icon { border-color: #efb4cb; background: #ffedf4; }
+    .flow-item:nth-child(1) .flow-icon { border-color: #6658a5; background: #211d3a; }
+    .flow-item:nth-child(2) .flow-icon { border-color: #9c5b47; background: #351f1b; }
+    .flow-item:nth-child(3) .flow-icon { border-color: #9d7e36; background: #352d17; }
+    .flow-item:nth-child(4) .flow-icon { border-color: #3b8878; background: #15332e; }
+    .flow-item:nth-child(5) .flow-icon { border-color: #98516f; background: #351c2b; }
 
     .flow-item strong { display: block; margin-bottom: 5px; font-size: 1rem; }
     .flow-item span { display: block; color: var(--ink-soft); font-size: .8rem; }
@@ -510,7 +510,7 @@
       padding: 15px;
       border: 1px solid var(--line);
       border-radius: 14px;
-      background: rgba(255,253,248,.66);
+      background: var(--card);
     }
 
     .pair-label {
@@ -529,10 +529,10 @@
     .compare-note {
       margin-top: 14px;
       padding: 15px 17px;
-      color: #244c45;
+      color: #b7f0e1;
       border-left: 4px solid var(--mint);
       border-radius: 0 12px 12px 0;
-      background: #e8f5f1;
+      background: #102b25;
       font-size: .9rem;
     }
 
