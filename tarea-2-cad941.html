@@ -228,6 +228,34 @@
     .stat strong { display: block; margin-bottom: 2px; font-size: 1.35rem; letter-spacing: -.03em; }
     .stat span { color: rgba(255,255,255,.58); font-size: .77rem; }
 
+    .important-note {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-top: 18px;
+      padding: 14px 17px;
+      color: #ffe5a7;
+      border: 1px solid #705b2b;
+      border-radius: 14px;
+      background: #211b0e;
+      font-size: .9rem;
+    }
+
+    .important-note-mark {
+      display: grid;
+      width: 24px;
+      height: 24px;
+      flex: 0 0 auto;
+      place-items: center;
+      color: #211b0e;
+      border-radius: 50%;
+      background: #f3c86b;
+      font-size: .78rem;
+      font-weight: 900;
+    }
+
+    .important-note strong { color: #fff0bc; }
+
     .section { margin-top: 64px; }
 
     .page-shell > header { order: 0; }
@@ -751,6 +779,11 @@
         <div class="stat"><strong>1</strong><span>PDF final</span></div>
       </div>
     </header>
+
+    <aside class="important-note" role="note">
+      <span class="important-note-mark">✓</span>
+      <span><strong>Nota importante de la guía:</strong> no se permite resolver límites usando la Regla de L’Hôpital.</span>
+    </aside>
 
     <section class="section" aria-labelledby="rule-title">
       <div class="section-heading">
