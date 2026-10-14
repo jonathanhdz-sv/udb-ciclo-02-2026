@@ -536,6 +536,42 @@
       font-size: .9rem;
     }
 
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .comparison-card {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: var(--card);
+      box-shadow: var(--small-shadow);
+    }
+
+    .comparison-exercise {
+      display: block;
+      margin: 0 0 14px;
+      color: var(--ink);
+      font-family: "SFMono-Regular", Consolas, monospace;
+      font-size: .9rem;
+    }
+
+    .comparison-person {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      padding: 9px 10px;
+      border-radius: 10px;
+      background: #0b111c;
+    }
+
+    .comparison-person + .comparison-person { margin-top: 8px; background: #182536; }
+    .comparison-person > span { flex: 0 0 auto; font-size: 1.25rem; }
+    .comparison-person small { display: block; color: var(--ink-soft); font-size: .62rem; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; }
+    .comparison-person strong { display: block; color: var(--ink); font-size: .86rem; }
+
     .closing-grid {
       display: grid;
       grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
@@ -614,6 +650,7 @@
     @media (max-width: 980px) {
       .team-grid { grid-template-columns: repeat(3, 1fr); }
       .pair-grid { grid-template-columns: repeat(3, 1fr); }
+      .comparison-grid { grid-template-columns: repeat(3, 1fr); }
       .flow { grid-template-columns: repeat(3, 1fr); gap: 25px 0; }
       .flow-item:nth-child(3)::after { display: none; }
     }
@@ -628,6 +665,7 @@
       .rule-grid { grid-template-columns: 1fr; }
       .rule { min-height: auto; }
       .team-grid, .pair-grid { grid-template-columns: repeat(2, 1fr); }
+      .comparison-grid { grid-template-columns: repeat(2, 1fr); }
       .section { margin-top: 45px; }
       .section-heading { display: block; }
       .section-heading h2 { margin-bottom: 10px; }
@@ -643,6 +681,7 @@
       h1 { font-size: 2.65rem; }
       .topline { align-items: flex-start; flex-direction: column; gap: 10px; }
       .team-grid, .pair-grid { grid-template-columns: 1fr; }
+      .comparison-grid { grid-template-columns: 1fr; }
       .card-inner { padding: 16px; }
     }
 
@@ -790,34 +829,44 @@
     <section class="section" aria-labelledby="cascade-title">
       <div class="section-heading">
         <div>
-          <p class="eyebrow" style="color: var(--mint);">La cadena</p>
-          <h2 id="cascade-title">Cada bloque tiene una segunda mirada.</h2>
+          <p class="eyebrow" style="color: var(--mint);">Comparación</p>
+          <h2 id="cascade-title">Así se comparan los bloques.</h2>
         </div>
-        <p>La flecha indica qué bloque extra realiza cada integrante. De esta manera, todas las soluciones seleccionadas tienen una comparación independiente.</p>
+        <p>Cada tarjeta muestra el bloque, quién lo resuelve primero y quién lo vuelve a resolver para comparar.</p>
       </div>
 
-      <div class="flow-legend" aria-label="Leyenda del flujo">
-        <span><i class="legend-dot own"></i> Resuelve primero</span>
-        <span><i class="legend-dot compare"></i> Compara con</span>
+      <div class="comparison-grid" aria-label="Bloques y personas responsables">
+        <article class="comparison-card">
+          <span class="pair-label">Bloque 01</span>
+          <strong class="comparison-exercise">1.c + 3.yy</strong>
+          <div class="comparison-person"><span>⭐</span><div><small>Resuelve primero</small><strong>Kirby</strong></div></div>
+          <div class="comparison-person"><span>🗡️</span><div><small>Verifica también</small><strong>Link</strong></div></div>
+        </article>
+        <article class="comparison-card">
+          <span class="pair-label">Bloque 02</span>
+          <strong class="comparison-exercise">2.xx + 3.q</strong>
+          <div class="comparison-person"><span>🍄</span><div><small>Resuelve primero</small><strong>Mario</strong></div></div>
+          <div class="comparison-person"><span>🟢</span><div><small>Verifica también</small><strong>Luigi</strong></div></div>
+        </article>
+        <article class="comparison-card">
+          <span class="pair-label">Bloque 03</span>
+          <strong class="comparison-exercise">5.u + 7.III</strong>
+          <div class="comparison-person"><span>🗡️</span><div><small>Resuelve primero</small><strong>Link</strong></div></div>
+          <div class="comparison-person"><span>🍄</span><div><small>Verifica también</small><strong>Mario</strong></div></div>
+        </article>
+        <article class="comparison-card">
+          <span class="pair-label">Bloque 04</span>
+          <strong class="comparison-exercise">8.h + 5.n</strong>
+          <div class="comparison-person"><span>🟢</span><div><small>Resuelve primero</small><strong>Luigi</strong></div></div>
+          <div class="comparison-person"><span>👑</span><div><small>Verifica también</small><strong>Peach</strong></div></div>
+        </article>
+        <article class="comparison-card">
+          <span class="pair-label">Bloque 05</span>
+          <strong class="comparison-exercise">2.ff + 2.kk</strong>
+          <div class="comparison-person"><span>👑</span><div><small>Resuelve primero</small><strong>Peach</strong></div></div>
+          <div class="comparison-person"><span>⭐</span><div><small>Verifica también</small><strong>Kirby</strong></div></div>
+        </article>
       </div>
-
-      <div class="flow" aria-label="Flujo de verificación">
-        <div class="flow-item"><span class="flow-icon">⭐</span><strong>Kirby</strong><span>comprueba a Peach</span></div>
-        <div class="flow-item"><span class="flow-icon">🍄</span><strong>Mario</strong><span>comprueba a Link</span></div>
-        <div class="flow-item"><span class="flow-icon">🗡️</span><strong>Link</strong><span>comprueba a Kirby</span></div>
-        <div class="flow-item"><span class="flow-icon">🟢</span><strong>Luigi</strong><span>comprueba a Mario</span></div>
-        <div class="flow-item"><span class="flow-icon">👑</span><strong>Peach</strong><span>comprueba a Luigi</span></div>
-      </div>
-
-      <div class="pair-grid">
-        <div class="pair"><span class="pair-label">Bloque 01</span><strong>1.c + 3.yy</strong><small>Kirby ↔ Link</small></div>
-        <div class="pair"><span class="pair-label">Bloque 02</span><strong>2.xx + 3.q</strong><small>Mario ↔ Luigi</small></div>
-        <div class="pair"><span class="pair-label">Bloque 03</span><strong>5.u + 7.III</strong><small>Link ↔ Mario</small></div>
-        <div class="pair"><span class="pair-label">Bloque 04</span><strong>8.h + 5.n</strong><small>Luigi ↔ Peach</small></div>
-        <div class="pair"><span class="pair-label">Bloque 05</span><strong>2.ff + 2.kk</strong><small>Peach ↔ Kirby</small></div>
-      </div>
-
-      <div class="compare-note"><strong>Decisión de cada responsable:</strong> comparen las dos soluciones de sus ejercicios, revisen factorización, racionalización, límites laterales, continuidad y procedimiento completo. La versión elegida por cada responsable será la que se incorpore a la guía.</div>
     </section>
 
   </main>
