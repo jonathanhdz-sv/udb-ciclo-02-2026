@@ -113,6 +113,14 @@
       letter-spacing: .07em;
     }
 
+    .due small {
+      display: block;
+      margin-top: 3px;
+      color: rgba(255,255,255,.72);
+      font-size: .64rem;
+      letter-spacing: .05em;
+    }
+
     .hero-grid {
       display: grid;
       grid-template-columns: minmax(0, 1.35fr) minmax(260px, .65fr);
@@ -425,7 +433,7 @@
     .flow-item:not(:last-child)::after {
       content: "→";
       position: absolute;
-      top: 18px;
+      top: 25px;
       right: -8px;
       color: var(--coral);
       font-size: 1.25rem;
@@ -434,13 +442,13 @@
 
     .flow-icon {
       display: grid;
-      width: 43px;
-      height: 43px;
+      width: 60px;
+      height: 60px;
       margin: 0 auto 9px;
       place-items: center;
-      border-radius: 14px;
+      border-radius: 18px;
       background: #edf2fb;
-      font-size: 1.25rem;
+      font-size: 1.8rem;
     }
 
     .flow-item strong { display: block; margin-bottom: 4px; font-size: .88rem; }
@@ -547,18 +555,6 @@
       font-weight: 900;
     }
 
-    .order-box {
-      margin-top: 18px;
-      padding: 12px;
-      color: var(--ink-soft);
-      border: 1px dashed var(--line);
-      border-radius: 10px;
-      background: #faf9f5;
-      font-size: .78rem;
-    }
-
-    .order-box strong { color: var(--ink); }
-
     footer {
       display: flex;
       justify-content: space-between;
@@ -591,9 +587,9 @@
       .section-heading { display: block; }
       .section-heading h2 { margin-bottom: 10px; }
       .flow { grid-template-columns: 1fr; gap: 14px; }
-      .flow-item { display: grid; grid-template-columns: 43px 1fr; gap: 11px; align-items: center; padding: 0 14px; text-align: left; }
+      .flow-item { display: grid; grid-template-columns: 60px 1fr; gap: 11px; align-items: center; padding: 0 14px; text-align: left; }
       .flow-icon { grid-row: span 2; margin: 0; }
-      .flow-item:not(:last-child)::after { top: auto; right: auto; bottom: -17px; left: 32px; content: "↓"; }
+      .flow-item:not(:last-child)::after { top: auto; right: auto; bottom: -17px; left: 42px; content: "↓"; }
       footer { display: block; }
       footer span { display: block; margin-bottom: 5px; }
     }
@@ -627,7 +623,7 @@
     <header class="hero">
       <div class="topline">
         <span class="brand"><span class="brand-mark">UDB</span> Cálculo Diferencial · CAD941</span>
-        <span class="due">ENTREGA · 21 OCTUBRE</span>
+        <span class="due">LISTO Y COMPARADO · 20 OCTUBRE<small>Entrega oficial: 21 octubre</small></span>
       </div>
 
       <div class="hero-grid">
@@ -639,7 +635,7 @@
 
         <aside class="hero-note">
           <strong>10 × 10%</strong>
-          <span>La tarea contiene diez ejercicios seleccionados. La verificación adicional sirve para comparar, no para resolver toda la guía.</span>
+          <span>La entrega oficial es el 21 de octubre, pero todos los ejercicios deben estar resueltos y comparados el 20.</span>
         </aside>
       </div>
 
@@ -803,7 +799,6 @@
             <div class="check-row"><span class="check-mark">✓</span><span>Cada responsable elige la versión que se incorporará a la guía.</span></div>
             <div class="check-row"><span class="check-mark">✓</span><span>Peach reúne las páginas elegidas y comparte el PDF para una última revisión.</span></div>
             </div>
-          <div class="order-box"><strong>Orden sugerido:</strong> 1.c, 2.ff, 2.kk, 2.xx, 3.q, 3.yy, 5.n, 5.u, 7.III y 8.h.</div>
         </article>
       </div>
     </section>
