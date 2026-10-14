@@ -424,7 +424,7 @@
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       gap: 0;
-      padding: 24px 10px;
+      padding: 30px 16px;
       border: 1px solid var(--line);
       border-radius: 20px;
       background: var(--card);
@@ -434,33 +434,42 @@
     .flow-item {
       position: relative;
       min-width: 0;
-      padding: 0 17px;
+      padding: 0 22px;
       text-align: center;
     }
 
     .flow-item:not(:last-child)::after {
       content: "→";
       position: absolute;
-      top: 25px;
-      right: -8px;
+      top: 36px;
+      right: -10px;
       color: var(--coral);
-      font-size: 1.25rem;
+      font-size: 1.45rem;
       font-weight: 900;
     }
 
     .flow-icon {
       display: grid;
-      width: 60px;
-      height: 60px;
-      margin: 0 auto 9px;
+      width: 82px;
+      height: 82px;
+      margin: 0 auto 12px;
       place-items: center;
-      border-radius: 18px;
+      border: 3px solid #dfe7f7;
+      border-radius: 24px;
       background: #edf2fb;
-      font-size: 1.8rem;
+      box-shadow: 0 8px 18px rgba(23,32,51,.1);
+      font-size: 2.65rem;
+      line-height: 1;
     }
 
-    .flow-item strong { display: block; margin-bottom: 4px; font-size: .88rem; }
-    .flow-item span { display: block; color: var(--ink-soft); font-size: .74rem; }
+    .flow-item:nth-child(1) .flow-icon { border-color: #cfc1ff; background: #f0ebff; }
+    .flow-item:nth-child(2) .flow-icon { border-color: #ffc6ae; background: #fff0e8; }
+    .flow-item:nth-child(3) .flow-icon { border-color: #f1d27b; background: #fff8df; }
+    .flow-item:nth-child(4) .flow-icon { border-color: #a7ddcf; background: #e8f7f3; }
+    .flow-item:nth-child(5) .flow-icon { border-color: #efb4cb; background: #ffedf4; }
+
+    .flow-item strong { display: block; margin-bottom: 5px; font-size: 1rem; }
+    .flow-item span { display: block; color: var(--ink-soft); font-size: .8rem; }
 
     .pair-grid {
       display: grid;
@@ -595,9 +604,9 @@
       .section-heading { display: block; }
       .section-heading h2 { margin-bottom: 10px; }
       .flow { grid-template-columns: 1fr; gap: 14px; }
-      .flow-item { display: grid; grid-template-columns: 60px 1fr; gap: 11px; align-items: center; padding: 0 14px; text-align: left; }
+      .flow-item { display: grid; grid-template-columns: 82px 1fr; gap: 13px; align-items: center; padding: 0 14px; text-align: left; }
       .flow-icon { grid-row: span 2; margin: 0; }
-      .flow-item:not(:last-child)::after { top: auto; right: auto; bottom: -17px; left: 42px; content: "↓"; }
+      .flow-item:not(:last-child)::after { top: auto; right: auto; bottom: -19px; left: 52px; content: "↓"; }
       footer { display: block; }
       footer span { display: block; margin-bottom: 5px; }
     }
