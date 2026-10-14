@@ -41,6 +41,8 @@
     .page-shell {
       width: min(1160px, calc(100% - 32px));
       margin: 28px auto 56px;
+      display: flex;
+      flex-direction: column;
     }
 
     .hero {
@@ -216,6 +218,12 @@
     .stat span { color: rgba(255,255,255,.58); font-size: .77rem; }
 
     .section { margin-top: 64px; }
+
+    .page-shell > header { order: 0; }
+    .page-shell > section[aria-labelledby="team-title"] { order: 1; }
+    .page-shell > section[aria-labelledby="rule-title"] { order: 2; }
+    .page-shell > section[aria-labelledby="cascade-title"] { order: 3; }
+    .page-shell > section[aria-labelledby="closing-title"] { order: 4; }
 
     .section-heading {
       display: flex;
