@@ -258,6 +258,14 @@
 
     .important-note strong { color: #fff0bc; }
 
+    .important-notes {
+      display: grid;
+      gap: 12px;
+      margin-top: 48px;
+    }
+
+    .important-notes .important-note { margin-top: 0; }
+
     .section { margin-top: 64px; }
 
     .page-shell > header { order: 0; }
@@ -265,6 +273,7 @@
     .page-shell > section[aria-labelledby="rule-title"] { order: 2; }
     .page-shell > section[aria-labelledby="cascade-title"] { order: 3; }
     .page-shell > section[aria-labelledby="closing-title"] { order: 4; }
+    .page-shell > .important-notes { order: 4; }
     .page-shell > .closing-image { order: 5; }
 
     .section-heading {
@@ -449,18 +458,6 @@
       font-size: .76rem;
       line-height: 1.4;
     }
-
-    .pdf-note {
-      margin-top: 13px;
-      padding: 10px 11px;
-      color: #b7f0e1;
-      border-left: 3px solid var(--mint);
-      border-radius: 0 9px 9px 0;
-      background: #102b25;
-      font-size: .76rem;
-    }
-
-    .pdf-note strong { color: #d4fff4; }
 
     .duty {
       display: flex;
@@ -794,11 +791,6 @@
       </div>
     </header>
 
-    <aside class="important-note" role="note">
-      <span class="important-note-mark">✓</span>
-      <span><strong>Nota importante de la guía:</strong> no se permite resolver límites usando la Regla de L’Hôpital.</span>
-    </aside>
-
     <section class="section" aria-labelledby="rule-title">
       <div class="section-heading">
         <div>
@@ -873,9 +865,19 @@
             <div class="card-head"><span class="character">🦖</span><div><h3>Yoshi</h3></div></div>
             <div class="assignment"><span class="assignment-label">Resuelve primero</span><div class="chips"><span class="exercise">2.ff</span><span class="exercise">2.kk</span></div><p class="assignment-note">Son los ejercicios propios de menor extensión.</p></div>
             <div class="assignment compare"><span class="assignment-label">Compara con</span><div class="chips"><span class="exercise">8.h</span><span class="exercise">5.n</span></div><p class="assignment-note">Esta solución será comparada con la de Luigi.</p></div>
-            <div class="pdf-note"><strong>PDF final:</strong> Yoshi unirá y ordenará el PDF porque sus ejercicios son los más cortos.</div>
           </div>
         </article>
+      </div>
+    </section>
+
+    <section class="important-notes" aria-label="Notas importantes">
+      <div class="important-note" role="note">
+        <span class="important-note-mark">✓</span>
+        <span><strong>Nota importante de la guía:</strong> no se permite resolver límites usando la Regla de L’Hôpital.</span>
+      </div>
+      <div class="important-note" role="note">
+        <span class="important-note-mark">✓</span>
+        <span><strong>PDF final:</strong> Yoshi unirá y ordenará el PDF porque sus ejercicios son los más cortos.</span>
       </div>
     </section>
 
